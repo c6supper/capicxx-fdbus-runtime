@@ -1,0 +1,14 @@
+{
+    "cSpell.words": [
+        "COMMONAPI"
+    ],
+    "C_Cpp.suggestSnippets": true,
+    "C_Cpp.formatting": "vcFormat",
+    "C_Cpp.vcFormat.indent.braces": false,
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.block": "sameLine",
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.function": "sameLine",
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.lambda": "sameLine",
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.namespace": "sameLine",
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.type": "sameLine",
+    "C_Cpp.vcFormat.indent.namespaceContents": false
+}

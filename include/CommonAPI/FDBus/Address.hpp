@@ -16,33 +16,30 @@
 #include <CommonAPI/FDBus/Constants.hpp>
 #include <CommonAPI/FDBus/Types.hpp>
 
-namespace CommonAPI
-{
-    namespace FDBus
-    {
+namespace CommonAPI {
+namespace FDBus {
 
-        class COMMONAPI_EXPORT Address
-        {
-        public:
-            Address() = delete;
-            Address(const std::string &_service);
-            Address(const Address &_source);
+class COMMONAPI_EXPORT Address {
+public:
+    Address() = delete;
+    Address(const std::string& _service);
+    Address(const Address& _source);
 
-            Address &operator=(const Address &_source);
+    Address& operator=(const Address& _source);
 
-            bool operator==(const Address &_other) const;
-            bool operator!=(const Address &_other) const;
+    bool operator==(const Address& _other) const;
+    bool operator!=(const Address& _other) const;
 
-            const std::string &getService() const;
-            void setService(const std::string &_service);
+    const std::string& getService() const;
+    void setService(const std::string& _service);
 
-        private:
-            std::string service_;
+private:
+    std::string service_;
 
-            friend std::ostream &operator<<(std::ostream &_out, const Address &_address);
-        };
+    friend std::ostream& operator<<(std::ostream& _out, const Address& _address);
+};
 
-    } // namespace FDBus
+} // namespace FDBus
 } // namespace CommonAPI
 
 #endif // COMMONAPI_FDBUS_ADDRESS_HPP_

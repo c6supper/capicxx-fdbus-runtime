@@ -6,61 +6,51 @@
 #include <CommonAPI/FDBus/Address.hpp>
 #include <iomanip>
 
-namespace CommonAPI
-{
-    namespace FDBus
-    {
+namespace CommonAPI {
+namespace FDBus {
 
-        Address::Address(const std::string &_service)
-            : service_(_service)
-        {
-        }
+Address::Address(const std::string& _service)
+    : service_(_service) {
+}
 
-        Address::Address(const Address &_source)
-            : service_(_source.service_)
-        {
-        }
+Address::Address(const Address& _source)
+    : service_(_source.service_) {
+}
 
-        Address &
-        Address::operator=(const Address &_source)
-        {
-            service_ = _source.service_;
+Address&
+Address::operator=(const Address& _source) {
+    service_ = _source.service_;
 
-            return (*this);
-        }
+    return (*this);
+}
 
-        bool
-        Address::operator==(const Address &_other) const
-        {
-            return (service_ == _other.service_);
-        }
+bool
+Address::operator==(const Address& _other) const {
+    return (service_ == _other.service_);
+}
 
-        bool
-        Address::operator!=(const Address &_other) const
-        {
-            return (service_ != _other.service_);
-        }
+bool
+Address::operator!=(const Address& _other) const {
+    return (service_ != _other.service_);
+}
 
-        const std::string &
-        Address::getService() const
-        {
-            return service_;
-        }
+const std::string&
+Address::getService() const {
+    return service_;
+}
 
-        void
-        Address::setService(const std::string _service)
-        {
-            service_ = _service;
-        }
+void
+Address::setService(const std::string _service) {
+    service_ = _service;
+}
 
-        std::ostream &
-        operator<<(std::ostream &_out, const Address &_address)
-        {
-            _out << "["
-                 << _address.service_
-                 << "]";
-            return (_out);
-        }
+std::ostream&
+operator<<(std::ostream& _out, const Address& _address) {
+    _out << "["
+        << _address.service_
+        << "]";
+    return (_out);
+}
 
-    } // namespace FDBus
+} // namespace FDBus
 } // namespace CommonAPI
