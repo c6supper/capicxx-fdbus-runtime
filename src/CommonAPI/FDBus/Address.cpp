@@ -40,7 +40,7 @@ Address::getService() const {
 }
 
 void
-Address::setService(const std::string _service) {
+Address::setService(const std::string& _service) {
     service_ = _service;
 }
 
