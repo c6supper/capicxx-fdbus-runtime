@@ -9,8 +9,18 @@
 namespace CommonAPI {
 namespace FDBus {
 
+const std::string Address::INVALID_SERVICE = "invalid_service";
+
+Address::Address()
+    : service_(Address::INVALID_SERVICE) {
+}
+
 Address::Address(const std::string& _service)
     : service_(_service) {
+}
+
+bool Address::IsValid() {
+    return (service_ != Address::INVALID_SERVICE);
 }
 
 Address::Address(const Address& _source)
@@ -32,6 +42,11 @@ Address::operator==(const Address& _other) const {
 bool
 Address::operator!=(const Address& _other) const {
     return (service_ != _other.service_);
+}
+
+bool
+Address::operator<(const Address& _other) const {
+    return (service_ < _other.service_);
 }
 
 const std::string&

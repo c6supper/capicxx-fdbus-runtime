@@ -38,29 +38,17 @@ public:
     COMMONAPI_EXPORT bool translate(const Address& _key, std::string& _value);
     COMMONAPI_EXPORT bool translate(const Address& _key, CommonAPI::Address& _value);
 
-    COMMONAPI_EXPORT void insert(const std::string& _address);
+    COMMONAPI_EXPORT void insert(const std::string& _address, const std::string& _service);
 
     COMMONAPI_EXPORT const Address& getAddressAlias(const Address& _address) const;
-    COMMONAPI_EXPORT method_id_t getMethodAlias(const Address& _address,
-        const method_id_t _method) const;
-    COMMONAPI_EXPORT eventgroup_id_t getEventgroupAlias(const Address& _address,
-        const eventgroup_id_t _eventgroup) const;
 
 private:
     COMMONAPI_EXPORT bool readConfiguration();
     COMMONAPI_EXPORT void readServiceAlias(const std::string& _source,
         const std::string& _target);
-    COMMONAPI_EXPORT void readMethodAlias(const std::string& _source,
-        const std::string& _target);
-    COMMONAPI_EXPORT void readEventgroupAlias(const std::string& _source,
-        const std::string& _target);
-    COMMONAPI_EXPORT bool readValue(const std::string& _data,
-        Address& _sourceAddress, uint16_t& _id, bool _readId);
+    COMMONAPI_EXPORT bool readValue(const std::string& _data, Address& _sourceAddress);
 
-    COMMONAPI_EXPORT bool isValidService(const service_id_t) const;
-    COMMONAPI_EXPORT bool isValidInstance(const instance_id_t) const;
-    COMMONAPI_EXPORT bool isValidMethod(const method_id_t) const;
-    COMMONAPI_EXPORT bool isValidEventgroup(const eventgroup_id_t) const;
+    COMMONAPI_EXPORT bool isValidService(const std::string& _source) const;
 
 private:
     std::string defaultConfig_;
@@ -68,9 +56,7 @@ private:
     std::map<CommonAPI::Address, Address> forwards_;
     std::map<Address, CommonAPI::Address> backwards_;
 
-    typedef std::map<method_id_t, method_id_t> MethodAlias_t;
-    typedef std::map<eventgroup_id_t, eventgroup_id_t> EventgroupAlias_t;
-    typedef std::tuple<Address, MethodAlias_t, EventgroupAlias_t> Alias_t;
+    typedef std::tuple<Address> Alias_t;
     std::map<Address, Alias_t > aliases_;
 
     std::mutex mutex_;

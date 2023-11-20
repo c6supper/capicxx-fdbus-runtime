@@ -21,21 +21,24 @@ namespace FDBus {
 
 class COMMONAPI_EXPORT Address {
 public:
-    Address() = delete;
+    Address();
     Address(const std::string& _service);
     Address(const Address& _source);
+
+    bool IsValid();
 
     Address& operator=(const Address& _source);
 
     bool operator==(const Address& _other) const;
     bool operator!=(const Address& _other) const;
+    bool operator<(const Address& _other) const;
 
     const std::string& getService() const;
     void setService(const std::string& _service);
 
 private:
     std::string service_;
-
+    static const std::string INVALID_SERVICE;
     friend std::ostream& operator<<(std::ostream& _out, const Address& _address);
 };
 
