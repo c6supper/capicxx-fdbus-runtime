@@ -1,7 +1,22 @@
 {
     "cSpell.words": [
-        "COMMONAPI"
+        "COMMONAPI",
+        "FDBUS"
     ],
+    "search.exclude": {
+        "**/.git": true,
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/tmp": true,
+        "**/build": true
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/tmp": true,
+        "**/build/**": true
+    },
     "C_Cpp.suggestSnippets": true,
     "C_Cpp.formatting": "vcFormat",
     "C_Cpp.vcFormat.indent.braces": false,
@@ -64,6 +79,6 @@
         "thread": "cpp",
         "typeinfo": "cpp"
     },
-    "C_Cpp.vcFormat.indent.accessSpecifiers": true,
+    "C_Cpp.vcFormat.indent.accessSpecifiers": false,
     "C_Cpp.vcFormat.indent.preserveWithinParentheses": true
 }

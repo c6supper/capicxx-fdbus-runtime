@@ -22,8 +22,8 @@
 namespace CommonAPI {
 namespace FDBus {
 
-const char *COMMONAPI_FDBUS_DEFAULT_CONFIG_FILE = "commonapi-fdbus.ini";
-const char *COMMONAPI_FDBUS_DEFAULT_CONFIG_FOLDER = "/etc/";
+const char* COMMONAPI_FDBUS_DEFAULT_CONFIG_FILE = "commonapi-fdbus.ini";
+const char* COMMONAPI_FDBUS_DEFAULT_CONFIG_FOLDER = "/etc/";
 
 #ifdef _WIN32
 CRITICAL_SECTION critSec;
@@ -45,7 +45,7 @@ AddressTranslator::init() {
     InitializeCriticalSection(&critSec);
 #endif
     // Determine default configuration file
-    const char *config = getenv("COMMONAPI_FDBUS_CONFIG");
+    const char* config = getenv("COMMONAPI_FDBUS_CONFIG");
     if (config) {
         defaultConfig_ = config;
         struct stat s;
@@ -53,7 +53,8 @@ AddressTranslator::init() {
             COMMONAPI_ERROR("Failed to load ini file passed via "
                     "COMMONAPI_FDBUS_CONFIG environment: ", defaultConfig_);
         }
-    } else {
+    }
+    else {
         defaultConfig_ = COMMONAPI_FDBUS_DEFAULT_CONFIG_FOLDER;
         defaultConfig_ += "/";
         defaultConfig_ += COMMONAPI_FDBUS_DEFAULT_CONFIG_FILE;
@@ -62,20 +63,19 @@ AddressTranslator::init() {
     (void)readConfiguration();
 }
 
-AddressTranslator::~AddressTranslator()
-{
+AddressTranslator::~AddressTranslator() {
 #ifdef _WIN32
     DeleteCriticalSection(&critSec);
 #endif
 }
 
 bool
-AddressTranslator::translate(const std::string &_key, Address &_value) {
+AddressTranslator::translate(const std::string& _key, Address& _value) {
     return translate(CommonAPI::Address(_key), _value);
 }
 
 bool
-AddressTranslator::translate(const CommonAPI::Address &_key, Address &_value) {
+AddressTranslator::translate(const CommonAPI::Address& _key, Address& _value) {
     bool result(true);
 #ifdef _WIN32
     EnterCriticalSection(&critSec);
@@ -85,7 +85,8 @@ AddressTranslator::translate(const CommonAPI::Address &_key, Address &_value) {
     const auto it = forwards_.find(_key);
     if (it != forwards_.end()) {
         _value = it->second;
-    } else {
+    }
+    else {
         COMMONAPI_ERROR(
             "Cannot determine SOME/IP address data for "
             "CommonAPI address \"", _key, "\"");
@@ -98,7 +99,7 @@ AddressTranslator::translate(const CommonAPI::Address &_key, Address &_value) {
 }
 
 bool
-AddressTranslator::translate(const Address &_key, std::string &_value) {
+AddressTranslator::translate(const Address& _key, std::string& _value) {
     CommonAPI::Address address;
     bool result = translate(_key, address);
     _value = address.getAddress();
@@ -106,7 +107,7 @@ AddressTranslator::translate(const Address &_key, std::string &_value) {
 }
 
 bool
-AddressTranslator::translate(const Address &_key, CommonAPI::Address &_value) {
+AddressTranslator::translate(const Address& _key, CommonAPI::Address& _value) {
     bool result(true);
 #ifdef _WIN32
     EnterCriticalSection(&critSec);
@@ -116,7 +117,8 @@ AddressTranslator::translate(const Address &_key, CommonAPI::Address &_value) {
     const auto it = backwards_.find(_key);
     if (it != backwards_.end()) {
         _value = it->second;
-    } else {
+    }
+    else {
         COMMONAPI_ERROR(
             "Cannot determine CommonAPI address data for "
             "SOME/IP address \"", _key, "\"");
@@ -130,7 +132,7 @@ AddressTranslator::translate(const Address &_key, CommonAPI::Address &_value) {
 
 void
 AddressTranslator::insert(
-        const std::string &_address,
+        const std::string& _address,
         const service_id_t _service, const instance_id_t _instance,
         major_version_t _major, minor_version_t _minor) {
     if (isValidService(_service) && isValidInstance(_instance)) {
@@ -148,17 +150,19 @@ AddressTranslator::insert(
             backwards_[someipAddress] = address;
             COMMONAPI_DEBUG(
                 "Added address mapping: ", address, " <--> ", someipAddress);
-        } else if(bw != backwards_.end() && bw->second != _address) {
+        }
+        else if (bw != backwards_.end() && bw->second != _address) {
             COMMONAPI_ERROR("Trying to overwrite existing FDBus address which is "
                     "already mapped to a CommonAPI address: ",
                     someipAddress, " <--> ", _address);
-        } else if(fw != forwards_.end() && fw->second != someipAddress) {
+        }
+        else if (fw != forwards_.end() && fw->second != someipAddress) {
             COMMONAPI_ERROR("Trying to overwrite existing CommonAPI address which is "
                     "already mapped to a FDBus address: ",
                     _address, " <--> ", someipAddress);
         }
 #ifdef _WIN32
-    LeaveCriticalSection(&critSec);
+        LeaveCriticalSection(&critSec);
 #endif
     }
 }
@@ -196,24 +200,30 @@ AddressTranslator::readConfiguration() {
             for (auto itsMapping : itsSection.second->getMappings()) {
                 if (itsMapping.first.find("service:") == 0) {
                     readServiceAlias(itsMapping.first.substr(8), itsMapping.second);
-                } else if (itsMapping.first.find("method:") == 0) {
+                }
+                else if (itsMapping.first.find("method:") == 0) {
                     readMethodAlias(itsMapping.first.substr(7), itsMapping.second);
-                } else if (itsMapping.first.find("event:") == 0) {
+                }
+                else if (itsMapping.first.find("event:") == 0) {
                     readMethodAlias(itsMapping.first.substr(6), itsMapping.second);
-                } else if (itsMapping.first.find("eventgroup:") == 0) {
+                }
+                else if (itsMapping.first.find("eventgroup:") == 0) {
                     readEventgroupAlias(itsMapping.first.substr(11), itsMapping.second);
-                } else {
+                }
+                else {
                     COMMONAPI_ERROR("Found invalid alias configuration entry: ", itsMapping.first);
                 }
             }
-        } else {
+        }
+        else {
             service_id_t service;
             std::string serviceEntry = itsSection.second->getValue("service");
 
             std::stringstream converter;
             if (0 == serviceEntry.find("0x")) {
                 converter << std::hex << serviceEntry.substr(2);
-            } else {
+            }
+            else {
                 converter << std::dec << serviceEntry;
             }
             converter >> service;
@@ -225,7 +235,8 @@ AddressTranslator::readConfiguration() {
             converter.clear();
             if (0 == instanceEntry.find("0x")) {
                 converter << std::hex << instanceEntry.substr(2);
-            } else {
+            }
+            else {
                 converter << std::dec << instanceEntry;
             }
             converter >> instance;
@@ -298,8 +309,8 @@ AddressTranslator::isValidEventgroup(const eventgroup_id_t _eventgroup) const {
     return true;
 }
 
-const Address &
-AddressTranslator::getAddressAlias(const Address &_address) const {
+const Address&
+AddressTranslator::getAddressAlias(const Address & _address) const {
     auto foundAddress = aliases_.find(_address);
     if (foundAddress != aliases_.end())
         return std::get<0>(foundAddress->second);
@@ -307,7 +318,7 @@ AddressTranslator::getAddressAlias(const Address &_address) const {
 }
 
 method_id_t
-AddressTranslator::getMethodAlias(const Address &_address, const method_id_t _method) const {
+AddressTranslator::getMethodAlias(const Address & _address, const method_id_t _method) const {
     auto foundAddress = aliases_.find(_address);
     if (foundAddress != aliases_.end()) {
         auto foundMethod = std::get<1>(foundAddress->second).find(_method);
@@ -318,7 +329,7 @@ AddressTranslator::getMethodAlias(const Address &_address, const method_id_t _me
 }
 
 eventgroup_id_t
-AddressTranslator::getEventgroupAlias(const Address &_address, const eventgroup_id_t _eventgroup) const {
+AddressTranslator::getEventgroupAlias(const Address & _address, const eventgroup_id_t _eventgroup) const {
     auto foundAddress = aliases_.find(_address);
     if (foundAddress != aliases_.end()) {
         auto foundEventgroup = std::get<2>(foundAddress->second).find(_eventgroup);
@@ -329,7 +340,7 @@ AddressTranslator::getEventgroupAlias(const Address &_address, const eventgroup_
 }
 
 void
-AddressTranslator::readServiceAlias(const std::string &_source, const std::string &_target) {
+AddressTranslator::readServiceAlias(const std::string & _source, const std::string & _target) {
     Address itsSourceAddress, itsTargetAddress;
     method_id_t itsDummy;
 
@@ -340,7 +351,8 @@ AddressTranslator::readServiceAlias(const std::string &_source, const std::strin
         if (findService == aliases_.end()) {
             Alias_t itsTarget = std::make_tuple(itsTargetAddress, MethodAlias_t(), EventgroupAlias_t());
             aliases_.insert(std::make_pair(itsSourceAddress, itsTarget));
-        } else {
+        }
+        else {
             if (itsTargetAddress != std::get<0>(findService->second)) {
                 COMMONAPI_ERROR("Found multiple aliases for address ", itsSourceAddress);
             }
@@ -349,7 +361,7 @@ AddressTranslator::readServiceAlias(const std::string &_source, const std::strin
 }
 
 void
-AddressTranslator::readMethodAlias(const std::string &_source, const std::string &_target) {
+AddressTranslator::readMethodAlias(const std::string & _source, const std::string & _target) {
     Address itsSourceAddress, itsTargetAddress;
     method_id_t itsSourceMethod, itsTargetMethod;
 
@@ -362,17 +374,20 @@ AddressTranslator::readMethodAlias(const std::string &_source, const std::string
                 itsMethods.insert(std::make_pair(itsSourceMethod, itsTargetMethod));
                 Alias_t itsTarget = std::make_tuple(itsTargetAddress, itsMethods, EventgroupAlias_t());
                 aliases_.insert(std::make_pair(itsSourceAddress, itsTarget));
-            } else {
+            }
+            else {
                 if (itsTargetAddress == std::get<0>(findService->second)) {
                     auto findMethod = std::get<1>(findService->second).find(itsSourceMethod);
                     if (findMethod == std::get<1>(findService->second).end()) {
                         std::get<1>(findService->second).insert(std::make_pair(itsSourceMethod, itsTargetMethod));
-                    } else {
+                    }
+                    else {
                         if (findMethod->second != itsTargetMethod) {
                             COMMONAPI_ERROR("Found multiple aliases for method ", itsSourceAddress, ".", itsSourceMethod);
                         }
                     }
-                } else {
+                }
+                else {
                     COMMONAPI_ERROR("Found multiple aliases for address ", itsSourceAddress);
                 }
             }
@@ -381,7 +396,7 @@ AddressTranslator::readMethodAlias(const std::string &_source, const std::string
 }
 
 void
-AddressTranslator::readEventgroupAlias(const std::string &_source, const std::string &_target) {
+AddressTranslator::readEventgroupAlias(const std::string & _source, const std::string & _target) {
     Address itsSourceAddress, itsTargetAddress;
     method_id_t itsSourceEventgroup, itsTargetEventgroup;
 
@@ -394,17 +409,20 @@ AddressTranslator::readEventgroupAlias(const std::string &_source, const std::st
                 itsEventgroups.insert(std::make_pair(itsSourceEventgroup, itsTargetEventgroup));
                 Alias_t itsTarget = std::make_tuple(itsTargetAddress, MethodAlias_t(), itsEventgroups);
                 aliases_.insert(std::make_pair(itsSourceAddress, itsTarget));
-            } else {
+            }
+            else {
                 if (itsTargetAddress == std::get<0>(findService->second)) {
                     auto findEventgroup = std::get<2>(findService->second).find(itsSourceEventgroup);
                     if (findEventgroup == std::get<2>(findService->second).end()) {
                         std::get<2>(findService->second).insert(std::make_pair(itsSourceEventgroup, itsTargetEventgroup));
-                    } else {
+                    }
+                    else {
                         if (findEventgroup->second != itsTargetEventgroup) {
                             COMMONAPI_ERROR("Found multiple aliases for method ", itsSourceAddress, ".", itsSourceEventgroup);
                         }
                     }
-                } else {
+                }
+                else {
                     COMMONAPI_ERROR("Found multiple aliases for address ", itsSourceAddress);
                 }
             }
@@ -413,8 +431,8 @@ AddressTranslator::readEventgroupAlias(const std::string &_source, const std::st
 }
 
 bool
-AddressTranslator::readValue(const std::string &_data,
-        Address &_address, uint16_t &_id, bool _readId) {
+AddressTranslator::readValue(const std::string & _data,
+        Address & _address, uint16_t & _id, bool _readId) {
 
     std::string itsServiceStr, itsInstanceStr, itsMajorStr("1"), itsMinorStr("0");
     std::string itsIdStr("0xFFFF"), itsTempStr;
@@ -426,28 +444,30 @@ AddressTranslator::readValue(const std::string &_data,
 
     itsServiceStr = _data.substr(0, foundService);
 
-    auto foundInstance = _data.find(':', foundService+1);
-    itsInstanceStr = _data.substr(foundService+1, foundInstance-foundService-1);
+    auto foundInstance = _data.find(':', foundService + 1);
+    itsInstanceStr = _data.substr(foundService + 1, foundInstance - foundService - 1);
 
     if (foundService != std::string::npos) {
-        auto foundMajor = _data.find(':', foundInstance+1);
-        itsTempStr = _data.substr(foundInstance+1, foundMajor-foundInstance-1);
+        auto foundMajor = _data.find(':', foundInstance + 1);
+        itsTempStr = _data.substr(foundInstance + 1, foundMajor - foundInstance - 1);
 
         if (foundMajor != std::string::npos) {
             itsMajorStr = itsTempStr;
 
-            auto foundMinor = _data.find(':', foundMajor+1);
-            itsMinorStr = _data.substr(foundMajor+1, foundMinor-foundMajor-1);
+            auto foundMinor = _data.find(':', foundMajor + 1);
+            itsMinorStr = _data.substr(foundMajor + 1, foundMinor - foundMajor - 1);
 
             if (foundMinor != std::string::npos) {
-                itsIdStr = _data.substr(foundMinor+1);
+                itsIdStr = _data.substr(foundMinor + 1);
             }
-        } else {
+        }
+        else {
             if (_readId) {
                 itsIdStr = itsTempStr;
             }
         }
-    } else if (_readId) {
+    }
+    else if (_readId) {
         return false;
     }
 
