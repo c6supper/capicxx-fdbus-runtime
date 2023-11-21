@@ -18,7 +18,15 @@ namespace FDBus {
 
 class Proxy;
 
+typedef ipc::fdbus::FdbMsgStatusCode return_code_e;
+typedef ipc::fdbus::EFdbMessageType message_type_e;
+typedef FdbMsgCode_t event_id_t;
+
 typedef int64_t ms_t;
+
+typedef uint8_t byte_t;
+
+typedef int32_t message_length_t;
 
 typedef std::uint32_t session_id_fake_t;
 
