@@ -12,7 +12,7 @@
 
 #include <string>
 
-#include <fdbus/CFdbMessage.h
+#include <vsomeip/vsomeip.hpp>
 
 #include <CommonAPI/Export.hpp>
 #include <CommonAPI/FDBus/Types.hpp>
@@ -26,7 +26,7 @@ class Connection;
 class Message {
 public:
   COMMONAPI_EXPORT Message();
-  COMMONAPI_EXPORT Message(const std::shared_ptr<ipc::fdbus::CFdbMessage>& _source);
+  COMMONAPI_EXPORT Message(const std::shared_ptr<vsomeip::message>& _source);
   COMMONAPI_EXPORT Message(const Message& _source);
   COMMONAPI_EXPORT Message(Message&& _source);
 
@@ -58,6 +58,8 @@ public:
   COMMONAPI_EXPORT return_code_e getReturnCode() const;
 
   COMMONAPI_EXPORT service_id_t getServiceId() const;
+  COMMONAPI_EXPORT instance_id_t getInstanceId() const;
+  COMMONAPI_EXPORT method_id_t getMethodId() const;
 
   COMMONAPI_EXPORT client_id_t getClientId() const;
   COMMONAPI_EXPORT session_id_t getSessionId() const;
@@ -68,7 +70,7 @@ public:
 
 
 private:
-  std::shared_ptr<ipc::fdbus::CFdbMessage> message_;
+  std::shared_ptr<vsomeip::message> message_;
 
   friend class Connection;
 };

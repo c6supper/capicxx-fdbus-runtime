@@ -3,7 +3,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#if !defined(COMMONAPI_INTERNAL_COMPILATION)
+#if !defined (COMMONAPI_INTERNAL_COMPILATION)
 #error "Only <CommonAPI/CommonAPI.hpp> can be included directly, this file may disappear or change contents."
 #endif
 
@@ -22,10 +22,10 @@ namespace FDBus {
 class COMMONAPI_EXPORT Address {
 public:
     Address();
-    Address(const std::string& _service);
+    Address(const service_id_t _service, const instance_id_t _instance,
+            major_version_t _major_version = ANY_MAJOR_VERSION,
+            minor_version_t _minor_version = ANY_MINOR_VERSION);
     Address(const Address& _source);
-
-    bool IsValid();
 
     Address& operator=(const Address& _source);
 
@@ -33,12 +33,24 @@ public:
     bool operator!=(const Address& _other) const;
     bool operator<(const Address& _other) const;
 
-    const std::string& getService() const;
-    void setService(const std::string& _service);
+    const service_id_t& getService() const;
+    void setService(const service_id_t _service);
+
+    const instance_id_t& getInstance() const;
+    void setInstance(const instance_id_t _instance);
+
+    const major_version_t& getMajorVersion() const;
+    void setMajorVersion(const major_version_t _major_version);
+
+    const minor_version_t& getMinorVersion() const;
+    void setMinorVersion(const minor_version_t _minor_version);
 
 private:
-    std::string service_;
-    static const std::string INVALID_SERVICE;
+    service_id_t service_;
+    instance_id_t instance_;
+    major_version_t major_version_;
+    minor_version_t minor_version_;
+
     friend std::ostream& operator<<(std::ostream& _out, const Address& _address);
 };
 

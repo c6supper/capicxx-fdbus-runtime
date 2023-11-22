@@ -1,7 +1,9 @@
 {
     "cSpell.words": [
         "COMMONAPI",
-        "FDBUS"
+        "eventgroup",
+        "FDBUS",
+        "Subsciption"
     ],
     "search.exclude": {
         "**/.git": true,

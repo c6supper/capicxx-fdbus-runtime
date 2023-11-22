@@ -50,6 +50,28 @@ if(NOT CMAKE_BUILD_TYPE)
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
 
+if (MSVC) 
+    # Boost
+    find_package( Boost 1.54 COMPONENTS system thread log REQUIRED )
+    if(Boost_FOUND)
+        if(Boost_LIBRARY_DIR)
+            MESSAGE( STATUS "Boost_LIBRARY_DIR not empty using it: ${Boost_LIBRARY_DIR}" )
+        else()
+            if(BOOST_LIBRARYDIR)
+                MESSAGE( STATUS "Boost_LIBRARY_DIR empty but BOOST_LIBRARYDIR is set setting Boost_LIBRARY_DIR to: ${BOOST_LIBRARYDIR}" )
+                set(Boost_LIBRARY_DIR ${BOOST_LIBRARYDIR})
+            endif()
+        endif()
+    else()
+        MESSAGE( STATUS "Boost was not found!")
+    endif()
+    include_directories( ${Boost_INCLUDE_DIR} )
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_CRT_SECURE_NO_WARNINGS /wd4503")
+    link_directories(${Boost_LIBRARY_DIR})
+else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Wformat -Wformat-security -Wconversion -fexceptions -fstrict-aliasing -fstack-protector -fasynchronous-unwind-tables -fno-omit-frame-pointer -DCOMMONAPI_INTERNAL_COMPILATION -D_GLIBCXX_USE_NANOSLEEP -DBOOST_LOG_DYN_LINK -pthread")
+endif()
+
 SET(MAX_LOG_LEVEL "DEBUG" CACHE STRING "maximum log level")
 message(STATUS "MAX_LOG_LEVEL is set to value: ${MAX_LOG_LEVEL}")
 
@@ -101,6 +123,10 @@ message(STATUS "CommonAPI_CONSIDERED_CONFIGS: ${CommonAPI_CONSIDERED_CONFIGS}")
 message(STATUS "COMMONAPI_INCLUDE_DIRS: ${COMMONAPI_INCLUDE_DIRS}")
 message(STATUS "CommonAPI Version: ${CommonAPI_VERSION}")
 
+# Boost
+find_package( Boost 1.54 COMPONENTS system thread log REQUIRED )
+include_directories( ${Boost_INCLUDE_DIR} )
+
 if(DEFINED ENV{FDBUS_INCLUDE_DIRS})
     MESSAGE(STATUS "FDBUS_INCLUDE_DIRS=$ENV{FDBUS_INCLUDE_DIRS}")
 else()
@@ -115,6 +141,7 @@ endif()
 
 include_directories(
     include
+    ${Boost_INCLUDE_DIR}
     ${COMMONAPI_INCLUDE_DIRS}
     $ENV{FDBUS_INCLUDE_DIRS}
 )
