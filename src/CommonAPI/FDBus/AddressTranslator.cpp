@@ -88,7 +88,7 @@ AddressTranslator::translate(const CommonAPI::Address& _key, Address& _value) {
     }
     else {
         COMMONAPI_ERROR(
-            "Cannot determine SOME/IP address data for "
+            "Cannot determine FDBUS address data for "
             "CommonAPI address \"", _key, "\"");
         result = false;
     }
@@ -121,7 +121,7 @@ AddressTranslator::translate(const Address& _key, CommonAPI::Address& _value) {
     else {
         COMMONAPI_ERROR(
             "Cannot determine CommonAPI address data for "
-            "SOME/IP address \"", _key, "\"");
+            "FDBUS address \"", _key, "\"");
         result = false;
     }
 #ifdef _WIN32
