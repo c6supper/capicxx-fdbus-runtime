@@ -22,23 +22,23 @@ namespace FDBus {
 
 class Proxy;
 
-typedef Extension::fdbus::service_t service_id_t;
-typedef Extension::fdbus::method_t method_id_t;
-typedef Extension::fdbus::event_t event_id_t;
-typedef Extension::fdbus::instance_t instance_id_t;
-typedef Extension::fdbus::eventgroup_t eventgroup_id_t;
-typedef Extension::fdbus::session_t session_id_t;
-typedef Extension::fdbus::client_t client_id_t;
+typedef Extension::FDBus::service_t service_id_t;
+typedef Extension::FDBus::method_t method_id_t;
+typedef Extension::FDBus::event_t event_id_t;
+typedef Extension::FDBus::instance_t instance_id_t;
+typedef Extension::FDBus::eventgroup_t eventgroup_id_t;
+typedef Extension::FDBus::session_t session_id_t;
+typedef Extension::FDBus::client_t client_id_t;
 
-typedef Extension::fdbus::byte_t byte_t;
-typedef Extension::fdbus::length_t message_length_t;
+typedef Extension::FDBus::byte_t byte_t;
+typedef Extension::FDBus::length_t message_length_t;
 
-typedef Extension::fdbus::return_code_e return_code_e;
-typedef Extension::fdbus::message_type_e message_type_e;
-typedef Extension::fdbus::state_type_e state_type_e;
+typedef Extension::FDBus::return_code_e return_code_e;
+typedef Extension::FDBus::message_type_e message_type_e;
+typedef Extension::FDBus::state_type_e state_type_e;
 
-typedef Extension::fdbus::major_version_t major_version_t;
-typedef Extension::fdbus::minor_version_t minor_version_t;
+typedef Extension::FDBus::major_version_t major_version_t;
+typedef Extension::FDBus::minor_version_t minor_version_t;
 
 typedef int64_t ms_t;
 

@@ -22,12 +22,12 @@
 namespace CommonAPI {
 namespace FDBus {
 
-const method_id_t ANY_METHOD = Extension::fdbus::ANY_METHOD;
-const major_version_t ANY_MAJOR_VERSION = Extension::fdbus::ANY_MAJOR;
-const minor_version_t ANY_MINOR_VERSION = Extension::fdbus::ANY_MINOR;
+const method_id_t ANY_METHOD = Extension::FDBus::ANY_METHOD;
+const major_version_t ANY_MAJOR_VERSION = Extension::FDBus::ANY_MAJOR;
+const minor_version_t ANY_MINOR_VERSION = Extension::FDBus::ANY_MINOR;
 
-const major_version_t DEFAULT_MAJOR_VERSION = Extension::fdbus::DEFAULT_MAJOR;
-const minor_version_t DEFAULT_MINOR_VERSION = Extension::fdbus::DEFAULT_MINOR;
+const major_version_t DEFAULT_MAJOR_VERSION = Extension::FDBus::DEFAULT_MAJOR;
+const minor_version_t DEFAULT_MINOR_VERSION = Extension::FDBus::DEFAULT_MINOR;
 
 const service_id_t MIN_SERVICE_ID = 0x0001;
 const service_id_t MAX_SERVICE_ID = 0xFFFD;

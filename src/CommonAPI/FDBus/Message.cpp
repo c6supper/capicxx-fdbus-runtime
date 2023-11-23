@@ -13,7 +13,7 @@ Message::Message()
   : message_(nullptr) {
 }
 
-Message::Message(const std::shared_ptr<Extension::fdbus::message>& _source)
+Message::Message(const std::shared_ptr<Extension::FDBus::message>& _source)
   : message_(_source) {
 }
 
@@ -54,7 +54,7 @@ Message::operator bool() const {
 
 Message
 Message::createMethodCall(const Address& _address, const method_id_t _method, bool _reliable) {
-  std::shared_ptr<Extension::fdbus::message> message(
+  std::shared_ptr<Extension::FDBus::message> message(
       vsomeip::runtime::get()->create_request(_reliable)
   );
   message->set_service(_address.getService());
@@ -66,7 +66,7 @@ Message::createMethodCall(const Address& _address, const method_id_t _method, bo
 
 Message
 Message::createResponseMessage() const {
-  std::shared_ptr<Extension::fdbus::message> message(
+  std::shared_ptr<Extension::FDBus::message> message(
       vsomeip::runtime::get()->create_response(message_)
   );
   return Message(message);
@@ -74,7 +74,7 @@ Message::createResponseMessage() const {
 
 Message
 Message::createErrorResponseMessage(return_code_e _return_code) const {
-  std::shared_ptr<Extension::fdbus::message> message(
+  std::shared_ptr<Extension::FDBus::message> message(
       vsomeip::runtime::get()->create_response(message_)
   );
   message->set_message_type(message_type_e::MT_ERROR);
@@ -85,7 +85,7 @@ Message::createErrorResponseMessage(return_code_e _return_code) const {
 Message
 Message::createNotificationMessage(
         const Address& _address, const event_id_t _event, bool _reliable) {
-  std::shared_ptr<Extension::fdbus::message> message(
+  std::shared_ptr<Extension::FDBus::message> message(
       vsomeip::runtime::get()->create_notification(_reliable)
   );
   message->set_service(_address.getService());
