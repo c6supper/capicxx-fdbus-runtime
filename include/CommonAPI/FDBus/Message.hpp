@@ -12,10 +12,11 @@
 
 #include <string>
 
-#include <vsomeip/vsomeip.hpp>
+#include <Extension::FDBus/Extension::FDBus.hpp>
 
 #include <CommonAPI/Export.hpp>
 #include <CommonAPI/FDBus/Types.hpp>
+#include <Extension/FDBus/message.hpp>
 
 namespace CommonAPI {
 namespace FDBus {
@@ -26,7 +27,7 @@ class Connection;
 class Message {
 public:
   COMMONAPI_EXPORT Message();
-  COMMONAPI_EXPORT Message(const std::shared_ptr<vsomeip::message>& _source);
+  COMMONAPI_EXPORT Message(const std::shared_ptr<Extension::FDBus::message>& _source);
   COMMONAPI_EXPORT Message(const Message& _source);
   COMMONAPI_EXPORT Message(Message&& _source);
 
@@ -70,7 +71,7 @@ public:
 
 
 private:
-  std::shared_ptr<vsomeip::message> message_;
+  std::shared_ptr<Extension::FDBus::message> message_;
 
   friend class Connection;
 };
